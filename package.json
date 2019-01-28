@@ -1,0 +1,12 @@
+{
+    "name": "blockies",
+    "version": "0.0-beta",
+    "description": "Blockies Lambda function to create ",
+    "main": "index.js",
+    "dependencies": {
+        "ethereum-blockies": "^0.1.1",
+        "ethereum-web3-plus": "^0.4.4"
+    },
+    "author": "James Neyer <jneyer@shipchain.io>",
+    "license": "Apache-2.0"
+}
