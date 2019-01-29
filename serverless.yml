@@ -1,0 +1,68 @@
+service: blockies-generator
+
+custom:
+  defaultRegion: us-west-1
+  defaultEnvironmentGroup: dev
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, env:USER}
+  objectPrefix: '${self:service}-${self:custom.stage}'
+
+plugins:
+  - "@silvermine/serverless-plugin-cloudfront-lambda-edge"
+
+package:
+  exclude:
+    - 'node_modules/**'
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ${self:custom.region}
+  stage: ${self:custom.stage}
+  environment:
+    SLS_SVC_NAME: ${self:service}
+    SLS_STAGE: ${self:custom.stage}
+
+functions:
+  blockiesGenerator:
+    name: 'blockies-generator'
+    handler: blockies/index.js
+    memorySize: 128
+    timeout: 3
+    lambdaAtEdge:
+      -
+        distribution: 'BlockiesDistribtuion'
+        eventType: 'origin-request'
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: '${self:custom.objectPrefix}'
+        AccessControl: 'PublicRead'
+    BlockiesDistribtuion:
+      Type: 'AWS::CloudFront::Distribution'
+      Properties:
+        DistributionConfig:
+          DefaultCacheBehavior:
+            TargetOriginId: 'WebsiteBucketOrigin'
+            ViewerProtocolPolicy: 'redirect-to-https'
+            DefaultTTL: 600
+            MaxTTL: 600
+            Compress: true
+            ForwardedValues:
+              QueryString: false
+              Cookies:
+                Forward: 'none'
+          Enabled: true
+          PriceClass: 'PriceClass_100'
+          HttpVersion: 'http2'
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: true
+          Origins:
+            -
+              Id: 'WebsiteBucketOrigin'
+              DomainName: {}
+
+    

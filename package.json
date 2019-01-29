@@ -1,12 +1,16 @@
 {
     "name": "blockies",
-    "version": "0.0-beta",
+    "version": "0.1.0",
     "description": "Blockies Lambda function to create ",
     "main": "index.js",
     "dependencies": {
+        "aws": "0.0.3-2",
         "ethereum-blockies": "^0.1.1",
         "ethereum-web3-plus": "^0.4.4"
     },
     "author": "James Neyer <jneyer@shipchain.io>",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "devDependencies": {
+        "@silvermine/serverless-plugin-cloudfront-lambda-edge": "2.1.1"
+    }
 }
