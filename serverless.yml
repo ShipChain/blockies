@@ -1,7 +1,7 @@
 service: blockies-generator
 
 custom:
-  defaultRegion: us-west-1
+  defaultRegion: us-east-1
   defaultEnvironmentGroup: dev
   region: ${opt:region, self:custom.defaultRegion}
   stage: ${opt:stage, env:USER}
@@ -25,14 +25,13 @@ provider:
 
 functions:
   blockiesGenerator:
-    name: 'blockies-generator'
-    handler: blockies/index.js
+    name: '${self:custom.objectPrefix}-blockies-generator'
+    handler: index.js
     memorySize: 128
     timeout: 3
     lambdaAtEdge:
-      -
-        distribution: 'BlockiesDistribtuion'
-        eventType: 'origin-request'
+      distribution: 'BlockiesDistribtuion'
+      eventType: 'origin-request'
 
 resources:
   Resources:
@@ -63,6 +62,5 @@ resources:
           Origins:
             -
               Id: 'WebsiteBucketOrigin'
-              DomainName: {}
-
-    
+              DomainName: {'Fn::GetAtt': [ 'WebsiteBucket', 'DomainName' ]}
+              S3OriginConfig: {}
