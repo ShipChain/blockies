@@ -1,5 +1,6 @@
-import blockies
-import web3
+var blockies = require('ethereum-blockies');
+var Web3 = require('web3');
+var Canvas = require('canvas');
 
 const querystring = require('querystring');
 const http = require('http');
@@ -8,21 +9,20 @@ const fs = require('fs');
 const child = require('child_process');
 
 
-exports.handler = (event, context, callback) => {
+exports.handler = function blockies_generator(event, context, callback) {
     console.log(JSON.stringify(event, null, 2));
     const request = event.Records[0].cf.request;
-    const protocol = origin.protocol;
-    const tmpPath = '/tmp/sourceImage';
+    
     const targetPath = '/tmp/targetImage';
     
-    const options = querystring.parse(request.querystring)
-    const small = [8, 4]
-    const medium = [8, 8]
+    const options = querystring.parse(request.querystring);
+    const small = [8, 4];
+    const medium = [8, 8];
 
-    const sizeNames = ['small', 'large']
-    const sizes = [{'small': small, 'medium': medium}]
-
-    if (options.size not in sizeNames) {
+    const sizeNames = ['small', 'large'];
+    const sizes = [{'small': small, 'medium': medium}];
+    
+    if (options.size && !sizeNames.includes(options.size)) {
         console.log('Invalid Input');
         context.succeed({
             status: '400',
@@ -30,24 +30,25 @@ exports.handler = (event, context, callback) => {
         });
         return;
     }
-    const size = options.size
-    else {
-        const sizeDim = sizes.size
-    }
 
-    if (web3.utils.isAddress(request.uri)){
-        var icon = blockies.create({
-            seed: request.uri,
+    const size = options.size | small;
+    const sizeDim = sizes[size];
+    const web3 = new Web3();
+
+    if (options.wallet && (web3.utils.isAddress(options.wallet))){
+        const canvas = Canvas.createCanvas(50, 50);
+
+        var icon = blockies.render({
+            seed: options.wallet,
             size: sizeDim[0],
             scale: sizeDim[1]
-        })
+        }, canvas);
 
-        const image = fs.readFileSync(targetPath).toString('base64');
+        var stringIcon = icon.toDataUrl();
 
         context.succeed({
-            bodyEncoding: 'base64',
-            body: icon,
-            headers: originHeaders,
+            bodyEncoding: 'text',
+            body: stringIcon,
             status: '200',
             statusDescription: 'OK'
         });

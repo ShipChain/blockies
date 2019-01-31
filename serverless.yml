@@ -9,6 +9,7 @@ custom:
 
 plugins:
   - "@silvermine/serverless-plugin-cloudfront-lambda-edge"
+  - serverless-plugin-include-dependencies
 
 package:
   exclude:
@@ -23,11 +24,23 @@ provider:
     SLS_SVC_NAME: ${self:service}
     SLS_STAGE: ${self:custom.stage}
 
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - logs:*
+    Resource: "*"
+
+  - Effect: Allow
+    Action:
+      - s3:GetObject
+      - s3:PutObject
+    Resource: "*"
+
 functions:
   blockiesGenerator:
-    name: '${self:custom.objectPrefix}-blockies-generator'
-    handler: index.js
-    memorySize: 128
+    name: 'blockies-generator'
+    handler: index.handler
+    memorySize: 1344
     timeout: 3
     lambdaAtEdge:
       distribution: 'BlockiesDistribtuion'
