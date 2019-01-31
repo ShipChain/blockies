@@ -64,7 +64,7 @@ resources:
             MaxTTL: 600
             Compress: true
             ForwardedValues:
-              QueryString: false
+              QueryString: true
               Cookies:
                 Forward: 'none'
           Enabled: true

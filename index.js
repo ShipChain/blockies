@@ -12,6 +12,7 @@ const child = require('child_process');
 exports.handler = function blockies_generator(event, context, callback) {
     console.log(JSON.stringify(event, null, 2));
     const request = event.Records[0].cf.request;
+    console.log(request)
     
     const targetPath = '/tmp/targetImage';
     
@@ -44,13 +45,16 @@ exports.handler = function blockies_generator(event, context, callback) {
             scale: sizeDim[1]
         }, canvas);
 
-        var stringIcon = icon.toDataUrl();
+        var stringIcon = icon.toDataURL().replace(/^data:image\/(png|jpg);base64,/, '');
 
         context.succeed({
             bodyEncoding: 'text',
             body: stringIcon,
             status: '200',
-            statusDescription: 'OK'
+            statusDescription: 'OK',
+            headers: {
+                'content-type': [{key:'Content-Type', value: 'image/png'}],
+            }
         });
     } else {
         console.log('Invalid Wallet');
