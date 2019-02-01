@@ -11,29 +11,25 @@ const child = require('child_process');
 
 exports.handler = function blockies_generator(event, context, callback) {
     console.log(JSON.stringify(event, null, 2));
-    const request = event.Records[0].cf.request;
-    
-    const targetPath = '/tmp/targetImage';
-    
+    const request = event.Records[0].cf.request;    
     const options = querystring.parse(request.querystring);
 
     const small = 4;
     const medium = 8;
     const large = 16;
     
-    const sizeNames = ['small', 'medium', 'large'];
     const sizes = {'small': small, 'medium': medium, 'large': large};
 
     var size = medium;
     
-    if (options.size && !sizeNames.includes(options.size)) {
+    if (options.size && !(options.size in sizes)) {
         console.log('Invalid Input');
         context.succeed({
             status: '400',
             statusDescription: 'Invalid Input'
         });
         return;
-    } else if (options.size && sizeNames.includes(options.size)) {
+    } else if (options.size && (options.size in sizes)) {
         size = sizes[options.size];
     }
 
@@ -68,6 +64,7 @@ exports.handler = function blockies_generator(event, context, callback) {
                 'content-type': [{key:'Content-Type', value: 'image/png'}],
             }
         });
+    
     } else {
         console.log('Invalid Wallet');
         context.succeed({
