@@ -13,3 +13,12 @@
 These are can be accessed by using the website blockies.shipchain.io/{{walletAddress}}.png. The size can be customizeable through the querystring.
 
 The blockies are created using AWS' Lambda@Edge and Serverless Framework.
+
+
+### How to configure and deploy
+
+The settup for the CloudFront, Lambda@Edge and S3 buckets are configured on the serverless.yml file. Included there, are the environment variables for the possible sizes of the blockie. You can deploy this to your AWS account using the command `sls deploy`, and for more in depth detail about the deployment you can use the command `sls deploy -v`.
+
+### How to Access
+
+In order to obtain a blockie based on an ethereum address, you need to make a request to blockies.shipchain.io/{{walletAddress}}.png, replacing {{walletAddress}} with the address of the ethereum wallet you want the blockie for. You can also customize the size of the blockie by adding '?size=(small/medium/large)' to the end of the request.
