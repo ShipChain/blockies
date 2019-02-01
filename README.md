@@ -8,20 +8,22 @@
 # Shipchain Blockies Project
 
 * A service assisting in generating the blockies using an ethereum wallet's address as the seed.
-* These blockies use the same standard as the etherscan, keeping a standard blockie per wallet. These can come in 3 different, customizable sizes.
+* These blockies use the same standard as in the Ethereum ecosystem, keeping a set blockie per wallet allowing quick identification of wallets visually. These can come in 3 different, customizable sizes.
 
-These are can be accessed by using the website blockies.shipchain.io/{{walletAddress}}.png. The size can be customizeable through the querystring.
+These can be accessed by using the website blockies.shipchain.io/{{walletAddress}}.png. The size is customizeable through the querystring.
 
 The blockies are created using AWS' Lambda@Edge and Serverless Framework.
 
 
 ### How to configure and deploy
 
-The settup for the CloudFront, Lambda@Edge and S3 buckets are configured on the serverless.yml file. Included there, are the environment variables for the possible sizes of the blockie. You can deploy this to your AWS account using the command `sls deploy`, and for more in depth detail about the deployment you can use the command `sls deploy -v`.
+The setup for the CloudFront, Lambda@Edge and S3 buckets are configured on the serverless.yml file. You can deploy this to your AWS account using the command `sls deploy`, and for more in depth detail about the deployment you can use the command `sls deploy -v`.
+
 
 ### How to Access
 
 In order to obtain a blockie based on an ethereum address, you need to make a request to blockies.shipchain.io/{{walletAddress}}.png, replacing {{walletAddress}} with the address of the ethereum wallet you want the blockie for. You can also customize the size of the blockie by adding '?size=(small/medium/large)' to the end of the request.
+
 
 ### How to Run Tests
 

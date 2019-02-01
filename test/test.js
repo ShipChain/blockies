@@ -205,22 +205,22 @@ describe( 'handler', function() {
             assert.equal(result.status, '200')
         });
     });
-    it('test success', function() {
+    it('test fail no appending slash', function() {
         return LambdaTester( myHandler ).event(failEvent).expectSucceed( (result) => {
             assert.equal(result.status, '400')
         });
     });
-    it('test success', function() {
+    it('test fail no trailing .png', function() {
         return LambdaTester( myHandler ).event(failEvent2).expectSucceed( (result) => {
             assert.equal(result.status, '400')
         });
     });
-    it('test success', function() {
+    it('test fail non wallet supplied', function() {
         return LambdaTester( myHandler ).event(failEventNonWallet).expectSucceed( (result) => {
             assert.equal(result.status, '400')
         });
     });
-    it('test success', function() {
+    it('test fail invalid size name', function() {
         return LambdaTester( myHandler ).event(failEventIncorrectSize).expectSucceed( (result) => {
             assert.equal(result.status, '400')
         });
