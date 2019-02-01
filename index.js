@@ -24,10 +24,7 @@ exports.handler = function blockies_generator(event, context, callback) {
     
     if (options.size && !(options.size in sizes)) {
         console.log('Invalid Input');
-        context.succeed({
-            status: '400',
-            statusDescription: 'Invalid Input'
-        });
+        callback("Error: Invalid size given.");
         return;
     } else if (options.size && (options.size in sizes)) {
         size = sizes[options.size];
@@ -35,17 +32,14 @@ exports.handler = function blockies_generator(event, context, callback) {
 
     const web3 = new Web3();
 
-    if (request.uri && !request.uri.includes('.png')) {
+    if (!request.uri.includes('.png')) {
         console.log('Invalid ')
-        context.succeed({
-            status: '400',
-            statusDescription: 'Invalid Input'
-        });
+        callback("Error: missing png ending for wallet.");
     }
 
     const wallet = request.uri.substr(1).split('.')[0].toLowerCase();;
 
-    if (request.uri && (web3.utils.isAddress(wallet))){
+    if (web3.utils.isAddress(wallet)){
         const canvas = Canvas.createCanvas(50, 50);
 
         var icon = blockies.render({
@@ -55,7 +49,7 @@ exports.handler = function blockies_generator(event, context, callback) {
 
         var stringIcon = icon.toDataURL().replace(/^data:image\/(png|jpg);base64,/, '');
 
-        context.succeed({
+        const response = {
             bodyEncoding: 'base64',
             body: stringIcon,
             status: '200',
@@ -63,14 +57,13 @@ exports.handler = function blockies_generator(event, context, callback) {
             headers: {
                 'content-type': [{key:'Content-Type', value: 'image/png'}],
             }
-        });
+        }
+        
+        callback(null, response);
     
     } else {
         console.log('Invalid Wallet');
-        context.succeed({
-            status: '400',
-            statusDescription: 'Invalid Wallet'
-        });
+        callback("Error: Invalid wallet address.");
         return;
     }
 }

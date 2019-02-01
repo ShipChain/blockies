@@ -196,33 +196,33 @@ const myHandler = require('../index').handler;
 
 describe( 'handler', function() {
     it('test success', function() {
-        return LambdaTester( myHandler ).event(successfulEvent).expectSucceed( (result) => {
+        return LambdaTester( myHandler ).event(successfulEvent).expectResult( (result, additional) => {
             assert.equal(result.status, '200');
         });
     });
     it('test success medium', function() {
-        return LambdaTester( myHandler ).event(successfulEventMedium).expectSucceed( (result) => {
+        return LambdaTester( myHandler ).event(successfulEventMedium).expectResult( (result, additional) => {
             assert.equal(result.status, '200')
         });
     });
     it('test fail no appending slash', function() {
-        return LambdaTester( myHandler ).event(failEvent).expectSucceed( (result) => {
-            assert.equal(result.status, '400')
+        return LambdaTester( myHandler ).event(failEvent).expectError( (result) => {
+            assert.equal(result.message, 'Error: Invalid wallet address.')
         });
     });
     it('test fail no trailing .png', function() {
-        return LambdaTester( myHandler ).event(failEvent2).expectSucceed( (result) => {
-            assert.equal(result.status, '400')
+        return LambdaTester( myHandler ).event(failEvent2).expectError( (result) => {
+            assert.equal(result.message, 'Error: missing png ending for wallet.')
         });
     });
     it('test fail non wallet supplied', function() {
-        return LambdaTester( myHandler ).event(failEventNonWallet).expectSucceed( (result) => {
-            assert.equal(result.status, '400')
+        return LambdaTester( myHandler ).event(failEventNonWallet).expectError( (result) => {
+            assert.equal(result.message, 'Error: Invalid wallet address.')
         });
     });
     it('test fail invalid size name', function() {
-        return LambdaTester( myHandler ).event(failEventIncorrectSize).expectSucceed( (result) => {
-            assert.equal(result.status, '400')
+        return LambdaTester( myHandler ).event(failEventIncorrectSize).expectError( (result) => {
+            assert.equal(result.message, 'Error: Invalid size given.')
         });
     });
 });
