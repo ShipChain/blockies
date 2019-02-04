@@ -206,23 +206,27 @@ describe( 'handler', function() {
         });
     });
     it('test fail no appending slash', function() {
-        return LambdaTester( myHandler ).event(failEvent).expectError( (result) => {
-            assert.equal(result.message, 'Error: Invalid wallet address.')
+        return LambdaTester( myHandler ).event(failEvent).expectResult( (result, additional) => {
+            assert.equal(result.statusDescription, 'Error: Invalid wallet address.')
+            assert.equal(result.status, '400')
         });
     });
     it('test fail no trailing .png', function() {
         return LambdaTester( myHandler ).event(failEvent2).expectError( (result) => {
-            assert.equal(result.message, 'Error: missing png ending for wallet.')
+            assert.equal(result.message, "Error: request URI must end with '.png'.")
+            assert.equal(result.status, '400')
         });
     });
     it('test fail non wallet supplied', function() {
         return LambdaTester( myHandler ).event(failEventNonWallet).expectError( (result) => {
             assert.equal(result.message, 'Error: Invalid wallet address.')
+            assert.equal(result.status, '400')
         });
     });
     it('test fail invalid size name', function() {
         return LambdaTester( myHandler ).event(failEventIncorrectSize).expectError( (result) => {
             assert.equal(result.message, 'Error: Invalid size given.')
+            assert.equal(result.status, '400')
         });
     });
 });
