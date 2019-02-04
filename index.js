@@ -1,5 +1,5 @@
 var blockies = require('ethereum-blockies');
-var Web3 = require('web3');
+var web3Utils = require('web3-utils');
 var Canvas = require('canvas');
 
 const querystring = require('querystring');
@@ -29,12 +29,10 @@ exports.handler = function blockies_generator(event, context, callback) {
         return;
     }
 
-    const web3 = new Web3();
-
     // This strips out the appending slash and the .png part of the request URI
-    const wallet = request.uri.substr(1).split('.')[0].toLowerCase();;
+    const wallet = request.uri.substr(1).split('.')[0].toLowerCase();
 
-    if (!web3.utils.isAddress(wallet)){
+    if (!web3Utils.isAddress(wallet)){
         console.log('Invalid Wallet');
         error_response.statusDescription = "Error: Invalid wallet address.";
         callback(null, error_response);
