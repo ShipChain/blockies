@@ -19,6 +19,11 @@ The blockies are created using AWS' Lambda@Edge and Serverless Framework.
 
 The setup for the CloudFront, Lambda@Edge and S3 buckets are configured on the serverless.yml file. You can deploy this to your AWS account using the command `sls deploy`, and for more in depth detail about the deployment you can use the command `sls deploy -v`.
 
+#### NOTE
+
+In order to deploy, you must install the proper node modules. This is best done in a docker file in order not to install versions associated with your OS. In addition, you will need to manually install the ethereum-blockies, as it cannot find the correct file when installing through npm install.
+
+
 
 ### How to Access
 
