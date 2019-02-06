@@ -33,3 +33,9 @@ In order to obtain a blockie, you need to make a request to blockies.shipchain.i
 ### How to Run Tests
 
 Make sure that you are compiling and installing using Node version 8.10-8.15. You can run the test using the command `npm test`. You can also get format information through the command `eslint index`.
+
+### Examples
+
+![0x0000000000000000000000000000000000000000](https://blockies.shipchain.io/0x0000000000000000000000000000000000000000.png?size=large "Large Sized Blockie 128x128")
+![0x0000000000000000000000000000000000000000](https://blockies.shipchain.io/0x0000000000000000000000000000000000000000.png?size=medium "Medium Sized Blockie 64x64")
+![0x0000000000000000000000000000000000000000](https://blockies.shipchain.io/0x0000000000000000000000000000000000000000.png?size=small "Small Sized Blockie 32x32")
