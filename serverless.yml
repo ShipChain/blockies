@@ -1,79 +1,53 @@
 service: blockies-generator
 
-custom:
-  defaultRegion: us-east-1
-  defaultEnvironmentGroup: dev
-  region: ${opt:region, self:custom.defaultRegion}
-  stage: ${opt:stage, env:USER}
-  objectPrefix: '${self:service}-${self:custom.stage}'
-
 plugins:
   - "@silvermine/serverless-plugin-cloudfront-lambda-edge"
   - serverless-plugin-include-dependencies
-
-package:
-  exclude:
-    - 'node_modules/**'
+  - serverless-dotenv-plugin
 
 provider:
   name: aws
   runtime: nodejs8.10
-  region: ${self:custom.region}
-  stage: ${self:custom.stage}
-  environment:
-    SLS_SVC_NAME: ${self:service}
-    SLS_STAGE: ${self:custom.stage}
-
-iamRoleStatements:
-  - Effect: Allow
-    Action:
-      - logs:*
-    Resource: "*"
-
-  - Effect: Allow
-    Action:
-      - s3:GetObject
-      - s3:PutObject
-    Resource: "*"
+  region: us-east-1
 
 functions:
   blockiesGenerator:
     name: 'blockies-generator'
     handler: index.handler
-    memorySize: 1344
-    timeout: 3
+    memorySize: 128
+    timeout: 2
     lambdaAtEdge:
       distribution: 'BlockiesDistribtuion'
       eventType: 'origin-request'
 
 resources:
   Resources:
-    WebsiteBucket:
-      Type: 'AWS::S3::Bucket'
-      Properties:
-        BucketName: '${self:custom.objectPrefix}'
-        AccessControl: 'PublicRead'
     BlockiesDistribtuion:
       Type: 'AWS::CloudFront::Distribution'
       Properties:
         DistributionConfig:
+          Aliases:
+            - ${env:BLOCKIES_DOMAIN}
           DefaultCacheBehavior:
-            TargetOriginId: 'WebsiteBucketOrigin'
+            TargetOriginId: 'DummyOrigin'
             ViewerProtocolPolicy: 'redirect-to-https'
-            DefaultTTL: 600
-            MaxTTL: 600
+            DefaultTTL: 31536000 # one year, default MaxTTL
             Compress: true
             ForwardedValues:
               QueryString: true
+              QueryStringCacheKeys:
+                - size
               Cookies:
                 Forward: 'none'
           Enabled: true
-          PriceClass: 'PriceClass_100'
+          PriceClass: 'PriceClass_200'
           HttpVersion: 'http2'
           ViewerCertificate:
-            CloudFrontDefaultCertificate: true
+            AcmCertificateArn: ${env:ACM_CERTIFICATE_ARN}
+            SslSupportMethod: 'sni-only'
+            MinimumProtocolVersion: 'TLSv1.1_2016'
           Origins:
-            -
-              Id: 'WebsiteBucketOrigin'
-              DomainName: {'Fn::GetAtt': [ 'WebsiteBucket', 'DomainName' ]}
-              S3OriginConfig: {}
+            - Id: 'DummyOrigin'
+              DomainName: 'shipchain.io'  # Needs to be a valid domain, but no requests will actually be sent to the origin
+              CustomOriginConfig:
+                OriginProtocolPolicy: https-only

@@ -1,12 +1,11 @@
 {
     "name": "blockies",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Blockies Lambda function to create ",
     "main": "index.js",
     "dependencies": {
-        "aws": "0.0.3-2",
         "canvas": "^2.3.1",
-        "lambda-tester": "^3.5.0",
+        "ethereum-blockies": "github:ethereum/blockies#f056afe0594d148ee357261f8932dd37d700abd7",
         "node": "^8.10.0",
         "web3-utils": "^1.0.0-beta.41"
     },
@@ -19,8 +18,12 @@
         "@silvermine/serverless-plugin-cloudfront-lambda-edge": "2.1.1",
         "chai": "^4.2.0",
         "eslint": "^5.13.0",
-        "ethereum-blockies": "^0.1.1",
+        "eslint-config-prettier": "^4.0.0",
+        "eslint-plugin-prettier": "^3.0.1",
+        "lambda-tester": "^3.5.0",
         "mocha": "^5.2.0",
+        "prettier": "^1.16.4",
+        "serverless-dotenv-plugin": "^2.0.1",
         "serverless-plugin-include-dependencies": "^3.2.1"
     }
 }
