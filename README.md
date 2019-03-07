@@ -22,7 +22,7 @@ The setup for the CloudFront, Lambda@Edge and S3 buckets are configured on the s
 
 #### NOTE
 
-In order to deploy, you must install the proper node modules. This is best done in a docker file in order not to install versions associated with your OS. However, you may need to install it to your computer in order to test it using `npm test` and/or `eslint index`. When switching between the node modules for deployement and testing, you need to delete the node_modules folder before running the `npm install` command for your docker container or computer.
+In order to deploy, you must install the proper node modules. This is best done in a docker file in order not to install versions associated with your OS. In order to make sure you have the proper node modules for deployment, you need to delete the node_modules folder before running the `npm install` command for your docker container or computer. It might be best to run the tests in the docker container also.
 
 
 ### How to Access
