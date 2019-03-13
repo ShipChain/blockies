@@ -55,6 +55,10 @@ header.masthead h1 {
     padding-bottom: 5rem;
 }
 
+.features-blockies-item {
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
     .features-blockies .features-blockies-large {
         padding-bottom: 1rem;
