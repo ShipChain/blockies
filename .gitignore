@@ -2,3 +2,4 @@
 .serverless
 node_modules
 .env
+.DS_STORE

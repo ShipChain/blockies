@@ -1,0 +1,95 @@
+body {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+
+header.masthead {
+    position: relative;
+    background-color: #343a40;
+    background: url("../img/bg-masthead.jpg") no-repeat center center;
+    background-size: cover;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+header.masthead h1 {
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    header.masthead {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+.alert-box {
+    padding-top: 3rem;  
+}
+
+.features-blockies {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+    .features-blockies .features-blockies-large {
+        padding-bottom: 1rem;
+        font-size: 5rem;
+    }
+
+    .features-blockies .features-blockies-medium {
+        padding-bottom: 3rem;
+        font-size: 5rem;
+    }
+
+    .features-blockies .features-blockies-small {
+        padding-bottom: 4rem;
+        font-size: 5rem;
+    }
+}
+
+.features-links {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+    background: lightgray;
+}
+
+.features-links .features-links-item {
+    max-width: 20rem;
+}
+
+.features-links .features-links-item .features-links-icon {
+    height: 7rem;
+}
+
+.features-links .features-links-item .features-links-icon i {
+    font-size: 4.5rem;
+}
+
+.features-links .features-links-item:hover .features-links-icon i {
+    font-size: 5rem;
+}
