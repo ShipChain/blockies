@@ -3,7 +3,6 @@ $(function() {
         var wallet_regex = new RegExp('^0x[a-fA-F0-9]{40}$');
         wallet_regex.compile(wallet_regex);
         var wallet_address = $("#blockie-generator").val();
-        console.log(wallet_address)
         if (wallet_regex.test(wallet_address)){
             $(".link-sm").attr("src", `https://blockies.shipchain.io/${wallet_address}.png?size=small`);
             $(".link-md").attr("src", `https://blockies.shipchain.io/${wallet_address}.png?size=medium`);
