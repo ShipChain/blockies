@@ -12,6 +12,9 @@ $(function() {
             $(".link-lg").attr("src", `https://blockies.shipchain.io/${wallet_address}.png?size=large`);
             $(".alert").hide(700);
             $(".features-blockies").show(700);
+        } else if (wallet_address == '') {
+            $(".alert").hide(700);
+            $(".features-blockies").hide(700);
         }
         else {
             console.log("Not an address")
