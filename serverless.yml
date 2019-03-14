@@ -28,6 +28,7 @@ resources:
         DistributionConfig:
           Aliases:
             - ${env:BLOCKIES_DOMAIN}
+          DefaultRootObject: "index.html"
           DefaultCacheBehavior:
             TargetOriginId: 'DummyOrigin'
             ViewerProtocolPolicy: 'redirect-to-https'
