@@ -1,7 +1,7 @@
 $(function() {
     $(".features-blockies").hide();
     $(".alert").hide();
-    $("#blockie-generator").change(function() {
+    $("#blockie-generator").on('input', function() {
         var wallet_regex = new RegExp('^0x[a-fA-F0-9]{40}$');
         wallet_regex.compile(wallet_regex);
         var wallet_address = $("#blockie-generator").val();
