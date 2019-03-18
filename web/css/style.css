@@ -16,7 +16,6 @@ h6 {
 
 header.masthead {
     position: relative;
-    background-color: white;
     background: url("../img/bg-masthead.jpg") no-repeat center center;
     background-size: cover;
     padding-top: 3rem;
