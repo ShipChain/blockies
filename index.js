@@ -22,10 +22,9 @@ exports.handler = function blockies_generator(event, context, callback) {
     statusDescription: "Error"
   };
 
-  if (!request.uri.includes(".png")) {
-    error_response.statusDescription =
-      "Error: request URI must end with '.png'.";
-    callback(null, error_response);
+  if (!request.uri.includes(".png") || request.uri.includes("img/")) {
+    // Assume request is for a landing page asset
+    callback(null, request);
     return;
   }
 

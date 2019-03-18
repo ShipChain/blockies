@@ -22,6 +22,11 @@ functions:
 
 resources:
   Resources:
+    BlockiesOriginAccessIdentity:  # Only used for landing page assets
+      Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: "CloudFrontOriginAccessIdentity for ${self:service}-${self:provider.stage}"
     BlockiesDistribtuion:
       Type: 'AWS::CloudFront::Distribution'
       Properties:
@@ -30,7 +35,7 @@ resources:
             - ${env:BLOCKIES_DOMAIN}
           DefaultRootObject: "index.html"
           DefaultCacheBehavior:
-            TargetOriginId: 'DummyOrigin'
+            TargetOriginId: 'BlockiesOrigin'
             ViewerProtocolPolicy: 'redirect-to-https'
             DefaultTTL: 31536000 # one year, default MaxTTL
             Compress: true
@@ -48,7 +53,11 @@ resources:
             SslSupportMethod: 'sni-only'
             MinimumProtocolVersion: 'TLSv1.1_2016'
           Origins:
-            - Id: 'DummyOrigin'
-              DomainName: 'shipchain.io'  # Needs to be a valid domain, but no requests will actually be sent to the origin
-              CustomOriginConfig:
-                OriginProtocolPolicy: https-only
+            - Id: 'BlockiesOrigin'
+              DomainName: 'blockies.shipchain.io.s3.amazonaws.com'  # Only used for landing page assets
+              S3OriginConfig:
+                OriginAccessIdentity: { "Fn::Join" : ["", ["origin-access-identity/cloudfront/", { Ref: BlockiesOriginAccessIdentity } ] ]  }
+
+package:
+  exclude:
+    - "web"
